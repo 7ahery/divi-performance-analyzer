@@ -1,0 +1,14 @@
+# Base
+.DS_STORE
+.DS_Store
+node_modules
+*.log
+*.mo
+*.css.map
+*.js.map
+.phpunit.result.cache
+.yarn
+.yarnrc.yml
+.env
+build
+trace.json
