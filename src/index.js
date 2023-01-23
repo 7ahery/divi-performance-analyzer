@@ -153,9 +153,11 @@ async function measurePerformance() {
 
   console.log(`Top 5 long tasks: ${topLongTasks}`);
   
-  console.log(`Blurb module was started to render after: ${(blurbModuleMetrics[0].startTime/1000).toFixed(2)}s`);
-  console.log(`Blurb module was rendered: ${blurbModuleMetrics.length} times after VB initial loading`);
-  console.log(`Blurb module was rendered: ${blurbModuleMetricsAfterHover.length} times after one hover interaction`);
+  if ( blurbModuleMetrics.length > 0 && blurbModuleMetricsAfterHover.length > 0 ) {
+    console.log(`Blurb module was started to render after: ${(blurbModuleMetrics[0].startTime/1000).toFixed(2)}s`);
+    console.log(`Blurb module was rendered: ${blurbModuleMetrics.length} times after VB initial loading`);
+    console.log(`Blurb module was rendered: ${blurbModuleMetricsAfterHover.length} times after one hover interaction`);
+  }
 
   await browser.close();
 }
@@ -182,7 +184,9 @@ async function getBlurbModuleMetricsAfterHover(page) {
   const frame = await iframeHandler.contentFrame();
 
   const element = await frame.$('.et_pb_blurb_content');
-  await element.hover();
+  if ( element ) {
+    await element.hover();
+  }
 
   const rawEntries = await frame.evaluate(function () {
     return JSON.stringify(window.performance.getEntries());
@@ -198,8 +202,8 @@ async function getBlurbModuleMetricsAfterHover(page) {
 async function loginToWordpress(browser) {
   const page = await browser.newPage();
   await page.goto(process.env.LOGIN_URL);
-  await page.type('#user_login', 'admin');
-  await page.type('#user_pass', 'admin');
+  await page.type('#user_login', process.env.LOGIN_USERNAME);
+  await page.type('#user_pass', process.env.LOGIN_PASSWORD);
   await page.click('#wp-submit');
   await page.waitForSelector('#wpcontent');
   await page.close();
