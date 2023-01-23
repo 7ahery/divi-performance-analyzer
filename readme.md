@@ -5,7 +5,8 @@
 2. Run `npm install`
 3. Rename `.env.example` to `.env` and fill out variables accordingly
 4. Checkout `temp-divi-performance-analyzer` in Divi `builder-5` repo and run `yarn start`.
-4. Run `npm run start`
+5. See your `.env` file and make sure when you load `VB_URL` there is blurb module in the page. This makes sure that render analysis can be run.
+6. Run `npm run start`
 
 ## FAQ
 
